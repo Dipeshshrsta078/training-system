@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Query,
+  Res,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto';
 
@@ -7,13 +15,21 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
-  async login(@Body() loginDto: LoginDto) {
+  async login(@Body() loginDto: LoginDto, @Res() res) {
     const user = await this.authService.login(loginDto);
-    return { token: user.token, profile: user.profile };
+    return res
+      .status(HttpStatus.OK)
+      .json({ token: user.token, profile: user.profile });
   }
   @Get('/logout')
-  async logout(@Query('token') token: string) {
-    const result = await this.authService.logout(token);
-    return result;
+  async logout(@Query('token') token: string, @Res() res) {
+    try {
+      const result = await this.authService.logout(token);
+      return res.status(HttpStatus.OK).json({ message: 'Logout success' });
+    } catch (e) {
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: 'Unauthorized user' });
+    }
   }
 }

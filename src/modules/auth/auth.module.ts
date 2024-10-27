@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersRepository } from 'libs/data-access/repository';
 import { TokenBlacklistModule } from '../token-blacklist/token-blacklist.module';
+import { providers } from './providers';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { TokenBlacklistModule } from '../token-blacklist/token-blacklist.module'
     TokenBlacklistModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersRepository],
+  providers: providers,
 })
 export class AuthModule {}

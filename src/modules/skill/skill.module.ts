@@ -2,7 +2,11 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { SkillController } from './skill.controller';
 import { SkillService } from './skill.service';
-import { SkillRepository } from 'libs/data-access/repository';
+import {
+  SkillRepository,
+  TokenBlacklistRepository,
+} from 'libs/data-access/repository';
+import { providers } from './providers';
 
 @Module({
   imports: [
@@ -15,6 +19,6 @@ import { SkillRepository } from 'libs/data-access/repository';
     }),
   ],
   controllers: [SkillController],
-  providers: [SkillService, SkillRepository],
+  providers: providers,
 })
 export class SkillModule {}

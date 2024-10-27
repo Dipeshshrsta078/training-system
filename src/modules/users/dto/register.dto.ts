@@ -2,6 +2,7 @@ import {
   IsArray,
   IsEmail,
   IsEnum,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -38,6 +39,6 @@ export class RegisterDto {
 
   @IsOptional()
   @IsArray()
-  @IsString({ each: true })
-  skill?: string;
+  @IsMongoId({ each: true })
+  skill?: string[];
 }

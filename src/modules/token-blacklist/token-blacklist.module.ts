@@ -4,6 +4,6 @@ import { TokenBlacklistRepository } from 'libs/data-access/repository';
 
 @Module({
   providers: [TokenBlacklistService, TokenBlacklistRepository],
-  exports: [TokenBlacklistService], // Export the service to use in other modules
+  exports: [TokenBlacklistService],
 })
 export class TokenBlacklistModule {}

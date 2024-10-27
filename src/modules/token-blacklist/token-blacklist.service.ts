@@ -7,9 +7,8 @@ import { Model } from 'mongoose';
 export class TokenBlacklistService {
   constructor(private tokenBlacklistRepository: TokenBlacklistRepository) {}
 
-  async addToken(token: string, expiresIn: number): Promise<void> {
-    const expiresAt = new Date(Date.now() + expiresIn * 1000); // Convert to milliseconds
-    await this.tokenBlacklistRepository.create({ token, expiresAt });
+  async addToken(token: string): Promise<void> {
+    await this.tokenBlacklistRepository.create({ token });
   }
 
   async isTokenBlacklisted(token: string): Promise<boolean> {

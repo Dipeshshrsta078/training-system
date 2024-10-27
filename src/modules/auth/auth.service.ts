@@ -21,7 +21,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  // Method to authenticate user and return JWT token
   async login(loginDto: LoginDto): Promise<{ token: string; profile: string }> {
     // Validate the user credentials
     const user = await this.validateUser(loginDto.username, loginDto.password);
@@ -45,20 +44,19 @@ export class AuthService {
       throw new UnauthorizedException('Invalid token');
     }
     return {
-      token, // Return the signed token
-      profile: user.profile, // Include the user's profile in the response
+      token,
+      profile: user.profile,
     };
   }
 
   async validateUser(username: string, password: string): Promise<any> {
-    // Find the user by username
     const user = await this.userRepository.findOne({ username });
 
-    // Check if the user exists and password matches (assuming password is hashed)
     if (!user) {
       throw new NotFoundException('User not found.');
     }
-    if (bcrypt.compare(password, user.password)) {
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (passwordMatch) {
       return user;
     }
     return null;
@@ -71,12 +69,10 @@ export class AuthService {
       if (!token) {
         throw new UnauthorizedException('Unauthorized user');
       }
-      const payload = this.jwtService.decode(token) as { exp: number };
-      if (payload && payload.exp) {
-        await this.tokenBlacklistService.addToken(
-          token,
-          payload.exp - Math.floor(Date.now() / 1000),
-        );
+      const headerToken = token.split(' ')[1];
+      const payload = this.jwtService.decode(headerToken) as { exp: number };
+      if (payload) {
+        await this.tokenBlacklistService.addToken(token);
       }
       return { statusCode: 200, message: 'Logout success' };
     } catch (e) {

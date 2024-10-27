@@ -35,12 +35,12 @@ export class UsersService {
       throw new BadRequestException('Username/Email already exists.');
     }
 
-    if (createUserDto?.skill.length > 0) {
+    if (createUserDto?.skill && createUserDto?.skill.length > 0) {
       const skillExists = await this.skillRepository.find({
         _id: { $in: createUserDto?.skill },
       });
 
-      if (skillExists.length !== createUserDto?.skill.length) {
+      if (createUserDto?.skill?.length) {
         throw new HttpException(
           'One or more participants do not exist',
           HttpStatus.UNPROCESSABLE_ENTITY,

@@ -6,7 +6,7 @@ export type SkillDocument = Skill & Document;
 @Schema({ timestamps: true })
 export class Skill {
   @Prop({ required: true, unique: true })
-  skill_name: string;
+  skillName: string;
 }
 
 export const SkillSchema = SchemaFactory.createForClass(Skill);

@@ -6,8 +6,10 @@ import { UsersModule } from '../users/users.module';
 import {
   ActivityRepository,
   SkillRepository,
+  TokenBlacklistRepository,
   UsersRepository,
 } from 'libs/data-access/repository';
+import { providers } from './providers';
 
 @Module({
   imports: [
@@ -21,11 +23,6 @@ import {
     UsersModule,
   ],
   controllers: [ActivityController],
-  providers: [
-    ActivityService,
-    ActivityRepository,
-    UsersRepository,
-    SkillRepository,
-  ],
+  providers: providers,
 })
 export class ActivityModule {}

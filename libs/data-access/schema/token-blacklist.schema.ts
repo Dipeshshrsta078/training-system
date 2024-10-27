@@ -7,9 +7,6 @@ export type TokenBlacklistDocument = TokenBlacklist & Document;
 export class TokenBlacklist extends Document {
   @Prop({ required: true, unique: true })
   token: string;
-
-  @Prop({ required: true })
-  expiresAt: Date;
 }
 
 export const TokenBlacklistSchema =
